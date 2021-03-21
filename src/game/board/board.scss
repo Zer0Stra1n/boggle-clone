@@ -1,0 +1,9 @@
+@import "../../styles/variables";
+
+.game-board {
+    border: 1px solid $game-border;
+    max-width: 50vw;
+    width: 450px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+}

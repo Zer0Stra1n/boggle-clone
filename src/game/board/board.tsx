@@ -1,13 +1,15 @@
 import React from 'react';
+import './board.scss';
+import { GameRow } from './game-row/game-row';
 
 export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function}) => {
     // the board is 4x4
     // TODO: Figure out what this actually looks like from a game perspective :/
     const squares = [
-        Array(4).fill(null),
-        Array(4).fill(null),
-        Array(4).fill(null),
-        Array(4).fill(null)
+        Array(4).fill('A'),
+        Array(4).fill('B'),
+        Array(4).fill('C'),
+        Array(4).fill('D')
     ];
 
     // Notes:
@@ -19,8 +21,10 @@ export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function})
     // it will also ideally keep track of the previous clicked die in case we decide to un-click it and unwind the word
     // this will kick the composite word out on click assuming the word passes checks the scoring and submission pieces handle the rest
     return (
-        <div>
-
+        <div className="game-board">
+            {squares.map((row, index) => (
+                <GameRow key={index} cells={row} rowIndex={index} onClick={() => {}}/>
+            ))}
         </div>
     )
 }

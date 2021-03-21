@@ -1,0 +1,22 @@
+@import "../../../styles/variables";
+
+.game-row {
+    display: flex;
+    justify-content: space-around;
+    .square {
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+        border-radius: .25rem;
+        &:nth-of-type(even){
+            margin-left: 1rem;
+            margin-right: 1rem;
+        }
+        &:hover, &.selected {
+            background-color: $primary;
+        }
+    }
+    &:nth-of-type(even){
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+}
