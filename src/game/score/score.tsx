@@ -13,15 +13,14 @@ export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => 
     const calculateScore = () => {
         let total = 0;
         const calcBreakdown = props.words.map(word => {
-           return {
+            const points = calculateValue(word);
+            total += points;
+
+            return {
                 word: word,
-                points: calculateValue(word)
+                points: points
             }
         });
-
-        calcBreakdown.forEach(calc => {
-            total += calc.points;
-        })
 
         setTotalPoints(total);
         setBreakdown(calcBreakdown);
