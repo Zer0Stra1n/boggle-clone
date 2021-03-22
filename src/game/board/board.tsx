@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { Cell } from '../game';
 import './board.scss';
 import { GameRow } from './game-row/game-row';
 
-export type Cell = {
-    row: number;
-    col: number;
-    value: string;
-}
-
-export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function}) => {
+export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {onClick: Function, used: Set<Cell>}) => {
     const [board, setBoard] = useState<Cell[][]>([]);
-    const [usedCells, setUsedCells] = useState<Set<Cell>>(new Set());
     // Casually stole this list from someone else because I have never seen these dice
     const diceList =[
         "aaafrs",
@@ -80,11 +74,12 @@ export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function})
     }, []);
 
     const validateCell = (cell: Cell) => {
+        const usedCells = props.used;
+        
         // if this is the first selection
         if (!usedCells.size){
             // just drop it in
-            setUsedCells(usedCells.add(cell));
-            props.onClick(cell.value);
+            props.onClick(cell);
         // otherwise, if we have that letter
         } else if (usedCells.has(cell)){
             // alert for now
@@ -98,10 +93,8 @@ export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function})
             
             // if so
             if (isAdjacent){
-                // add it
-                setUsedCells(usedCells.add(cell));
                 // bubble that letter up
-                props.onClick(cell.value);
+                props.onClick(cell);
             // otherwise
             } else {
                 // alert time
@@ -129,7 +122,7 @@ export const Board: React.FC<{onClick: Function}> = (props: {onClick: Function})
     return (
         <div className="game-board">
             {board.map((row, index) => (
-                <GameRow key={index} cells={row} onClick={(cell: Cell) => {validateCell(cell)}}/>
+                <GameRow key={index} used={props.used} cells={row} onClick={(cell: Cell) => {validateCell(cell)}}/>
             ))}
         </div>
     )

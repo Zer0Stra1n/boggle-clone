@@ -1,12 +1,12 @@
 import React from 'react';
-import { Cell } from '../board';
+import { Cell } from '../../game';
 import './game-row.scss';
 
-export const GameRow: React.FC<{cells: Cell[], onClick: Function}> = (props: {cells: Cell[], onClick: Function}) => {
+export const GameRow: React.FC<{cells: Cell[], used: Set<Cell>,  onClick: Function}> = (props: {cells: Cell[], used: Set<Cell>, onClick: Function}) => {
     return (
         <div className="game-row">
             {props.cells.map((square, index) => (
-                <div key={square.value + index} className="square" onClick={() => {props.onClick(square)}}>{square.value}</div>
+                <div key={square.value + index} className={props.used.has(square)? 'square selected': 'square'} onClick={() => {props.onClick(square)}}>{square.value}</div>
             ))}
         </div>
     )

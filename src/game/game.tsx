@@ -3,9 +3,16 @@ import { Board } from './board/board';
 import { Score } from './score/score';
 import { Submission } from './submission/submission';
 
+export type Cell = {
+    row: number;
+    col: number;
+    value: string;
+}
+
 export const Game: React.FC<{}> = () => {
     const [words, setWords] = useState<string[]>([]);
     const [potential, setPotential] = useState<string>('');
+    const [usedCells, setUsedCells] = useState<Set<Cell>>(new Set());
 
     const handleSubmission = (word: string) => {
         const wordList = new Set([...words]);
@@ -19,16 +26,20 @@ export const Game: React.FC<{}> = () => {
                ...words,
                word
             ]);
+
+            setPotential('');
+            setUsedCells(new Set());
         }
     }
 
-    const handleSelection = (letter:string) => {
-        setPotential(potential + letter);
+    const handleSelection = (square:Cell) => {
+        setPotential(potential + square.value);
+        setUsedCells(usedCells.add(square));
     }
     
     return (
         <div>
-            <Board onClick={(letter: string) => handleSelection(letter)}/>
+            <Board used={usedCells} onClick={(square: Cell) => handleSelection(square)}/>
             <Submission word={potential} onClick={(candidate: string) => handleSubmission(candidate)}/>
             <Score words={words}/>
         </div>
