@@ -12,7 +12,7 @@ export const Footer: React.FC<{}> = () => {
                         </div>
                     </li>
                     <li className="nav-item">
-                        <a href="https://github.com/Zer0Stra1n" target="_blank" className="nav-link text-light"><span className="fab fa-github"></span><span className="d-none d-sm-inline">Zer0Stra1n</span></a>
+                        <a href="https://github.com/Zer0Stra1n" target="_blank" rel="noreferrer noopener" className="nav-link text-light"><span className="fab fa-github"></span><span className="d-none d-sm-inline">Zer0Stra1n</span></a>
                     </li>
                 </ul>
             </div>
