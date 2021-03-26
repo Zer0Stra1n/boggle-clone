@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useReducer, useState } from 'react';
 import { Board } from './board/board';
 import { Score } from './score/score';
 import { Submission } from './submission/submission';
@@ -9,10 +9,41 @@ export type Cell = {
     value: string;
 }
 
+type State = {
+    potential: string;
+    usedCells: Set<Cell>;
+}
+
+type Action =
+    | { type: 'reset' }
+    | { type: 'update', payload: Cell };
+
+
 export const Game: React.FC<{}> = () => {
+    const initialState = {
+        potential: '',
+        usedCells: new Set<Cell>()
+    };
+
+    const submissionReducer = (state: State, action: Action) => {
+        switch (action.type) {
+            case 'update': 
+                return {
+                    potential: state.potential + action.payload.value,
+                    usedCells: state.usedCells.add(action.payload)
+                };
+            case 'reset':
+                return {
+                    potential: '',
+                    usedCells: new Set<Cell>()
+                };
+            default:
+                throw new Error('unknown state');
+        }
+    };
+
+    const [submissionState, dispatch] = useReducer(submissionReducer, initialState);
     const [words, setWords] = useState<string[]>([]);
-    const [potential, setPotential] = useState<string>('');
-    const [usedCells, setUsedCells] = useState<Set<Cell>>(new Set());
 
     const handleSubmission = (word: string) => {
         const wordList = new Set([...words]);
@@ -27,20 +58,18 @@ export const Game: React.FC<{}> = () => {
                word
             ]);
 
-            setPotential('');
-            setUsedCells(new Set());
+            dispatch({type: 'reset'});
         }
     }
 
     const handleSelection = (square:Cell) => {
-        setPotential(potential + square.value);
-        setUsedCells(usedCells.add(square));
+        dispatch({type: 'update', payload: square});
     }
     
     return (
         <div>
-            <Board used={usedCells} onClick={(square: Cell) => handleSelection(square)}/>
-            <Submission word={potential} onClick={(candidate: string) => handleSubmission(candidate)}/>
+            <Board used={submissionState.usedCells} onClick={(square: Cell) => handleSelection(square)}/>
+            <Submission word={submissionState.potential} onClick={(candidate: string) => handleSubmission(candidate)}/>
             <Score words={words}/>
         </div>
     )

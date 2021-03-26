@@ -1,7 +1,7 @@
 import React from 'react';
 import './footer.scss';
 
-export const Footer: React.FC<{}> = () => {
+export const Footer: React.FC<{}> = React.memo(() => {
     return (
         <footer className="bg-dark">
             <div className="container">
@@ -18,4 +18,4 @@ export const Footer: React.FC<{}> = () => {
             </div>
         </footer>
     );
-}
+})

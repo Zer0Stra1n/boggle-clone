@@ -11,4 +11,4 @@ export const Header: React.FC<{title: string}> = (props: {title: string}) => {
             </nav>
         </header>
     )
-}
+};

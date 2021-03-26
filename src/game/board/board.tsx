@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Cell } from '../game';
 import './board.scss';
 import { GameRow } from './game-row/game-row';
 
 export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {onClick: Function, used: Set<Cell>}) => {
-    const [board, setBoard] = useState<Cell[][]>([]);
     // Casually stole this list from someone else because I have never seen these dice
     const diceList =[
         "aaafrs",
@@ -33,7 +32,7 @@ export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {on
         "nootuw",
         "ooottu"
     ];
-
+    
     const rollDice = () => {
         // pull the length of the dice list
         const len = diceList.length;
@@ -46,11 +45,11 @@ export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {on
         // return a letter on the dice
         return die[letter];
     }
-
+    
     // This looks hilarious, but works fine
     // For each position, build out a row of 4 unique dice
     // We will end up with four rows of 4 dice
-    const generateBoard = () => {
+    const generateBoard = ():Cell[][] => {
         const squares = Array(4).fill(0).map((row, index) => {
             let update: Cell[] = [];
             for (let i = 0; i<4; i++){
@@ -66,12 +65,10 @@ export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {on
             return update;
         });
 
-        setBoard(squares);
+        return squares;
     }
-
-    useEffect(() => {
-        generateBoard();
-    }, []);
+    
+    const [board] = useState<Cell[][]>(generateBoard());
 
     const validateCell = (cell: Cell) => {
         const usedCells = props.used;

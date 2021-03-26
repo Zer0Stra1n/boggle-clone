@@ -10,22 +10,6 @@ export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => 
     const [totalPoints, setTotalPoints] = useState(0);
     const [breakdown, setBreakdown] = useState<Scoreable[]>([]);
 
-    const calculateScore = () => {
-        let total = 0;
-        const calcBreakdown = props.words.map(word => {
-            const points = calculateValue(word);
-            total += points;
-
-            return {
-                word: word,
-                points: points
-            }
-        });
-
-        setTotalPoints(total);
-        setBreakdown(calcBreakdown);
-    };
-
     const calculateValue = (word: string) => {
         const len = word.length;
         switch (true) {
@@ -45,7 +29,21 @@ export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => 
     }
 
     useEffect(() => {
-        calculateScore();
+        let total = 0;
+        if (props.words?.length) {
+            const calcBreakdown = props.words.map(word => {
+                const points = calculateValue(word);
+                total += points;
+
+                return {
+                    word: word,
+                    points: points
+                }
+            });
+
+            setTotalPoints(total);
+            setBreakdown(calcBreakdown);
+        }
     }, [props.words]);
     
     return (
