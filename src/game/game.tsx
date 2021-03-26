@@ -30,7 +30,7 @@ export const Game: React.FC<{}> = () => {
             case 'update': 
                 return {
                     potential: state.potential + action.payload.value,
-                    usedCells: state.usedCells.add(action.payload)
+                    usedCells: new Set<Cell>([...Array.from(state.usedCells), action.payload])
                 };
             case 'reset':
                 return {
