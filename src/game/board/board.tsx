@@ -114,8 +114,6 @@ export const Board: React.FC<{onClick: Function, used: Set<Cell>}> = (props: {on
     // The user can only move to adjacent die, including diags
     // 
     // this component will need to check the target and verify they connect on each click (pass in x,y eg. Pos 2, Row 1 and use that as the outbound click?)
-    // it will also ideally keep track of the previous clicked die in case we decide to un-click it and unwind the word
-    // this will kick the composite word out on click assuming the word passes checks the scoring and submission pieces handle the rest
     return (
         <div className="game-board">
             {board.map((row, index) => (
