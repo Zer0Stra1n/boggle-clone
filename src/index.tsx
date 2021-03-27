@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Footer } from './layout/footer/footer';
-import { Header } from './layout/header/header';
+import { Footer } from './components/layout/footer/footer';
+import { Header } from './components/layout/header/header';
 import './styles/main.scss';
 import './index.scss';
-import { Game } from './game/game';
+import { Game } from './components/game/game';
 
 export const App: React.FC<{}> = () => {
     useEffect(() => {
