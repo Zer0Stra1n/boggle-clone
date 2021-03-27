@@ -12,13 +12,13 @@ export const App: React.FC<{}> = () => {
     }, []);
 
     return (
-        <div className="app">
+        <>
             <Header title="Boggle" />
             <main className="container">
                 <Game/>
             </main>
             <Footer />
-        </div>
+        </>
     )
 };
 
