@@ -6,27 +6,27 @@ type Scoreable = {
     points: number;
 }
 
+function calculateValue(word: string): number {
+    const len = word.length;
+    switch (true) {
+        case (len === 3 || len === 4):
+            return 1;
+        case (len === 5):
+            return 2;
+        case (len === 6):
+            return 3;
+        case (len === 7):
+            return 5;
+        case (len > 7):
+            return 11;
+        default:
+            return 0;
+    }
+}
+
 export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => {
     const [totalPoints, setTotalPoints] = useState(0);
     const [breakdown, setBreakdown] = useState<Scoreable[]>([]);
-
-    const calculateValue = (word: string) => {
-        const len = word.length;
-        switch (true) {
-            case (len === 3 || len === 4):
-                return 1;
-            case (len === 5):
-                return 2;
-            case (len === 6):
-                return 3;
-            case (len === 7):
-                return 5;
-            case (len > 7):
-                return 11;
-            default:
-                return 0;
-        }
-    }
 
     useEffect(() => {
         let total = 0;

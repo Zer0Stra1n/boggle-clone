@@ -8,7 +8,7 @@ export const Footer: React.FC<{}> = React.memo(() => {
                 <ul className="nav">
                     <li className="nav-item">
                         <div className="copyright">
-                            <span className="fas fa-copyright text-light"></span><span>2020</span>
+                            <span className="fas fa-copyright text-light"></span><span>2021</span>
                         </div>
                     </li>
                     <li className="nav-item">

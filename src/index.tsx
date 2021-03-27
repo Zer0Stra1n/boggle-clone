@@ -13,7 +13,7 @@ export const App: React.FC<{}> = () => {
 
     return (
         <>
-            <Header title="Boggle" />
+            <Header />
             <main className="container">
                 <Game/>
             </main>

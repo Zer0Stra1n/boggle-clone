@@ -6,7 +6,7 @@ export const GameRow: React.FC<{cells: Cell[], used: Set<Cell>,  onClick: Functi
     return (
         <div className="game-row">
             {props.cells.map((square, index) => (
-                <div key={square.value + index} className={props.used.has(square)? 'square selected': 'square'} onClick={() => {props.onClick(square)}}>{square.value}</div>
+                <div key={square.value + index} className={`square ${props.used.has(square) ? 'selected' : ''}`} onClick={() => {props.onClick(square)}}>{square.value}</div>
             ))}
         </div>
     )
