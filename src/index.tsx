@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Footer } from './layout/footer/footer';
 import { Header } from './layout/header/header';
@@ -7,6 +7,10 @@ import './index.scss';
 import { Game } from './game/game';
 
 export const App: React.FC<{}> = () => {
+    useEffect(() => {
+        document.title = 'Boggle-Clone'
+    }, []);
+
     return (
         <div className="app">
             <Header title="Boggle" />
