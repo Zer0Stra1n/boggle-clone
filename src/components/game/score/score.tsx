@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer } from 'react';
+import React, { useEffect, useReducer, useRef } from 'react';
 import './score.scss';
 
 type Scoreable = {
@@ -34,7 +34,7 @@ function calculateValue(word: string): number {
     }
 }
 
-export const Score: React.FC<{word: string}> = (props: {word: string}) => {
+export const Score: React.FC<{word: string}> = React.memo((props: {word: string}) => {
     const scoreReducer = (state: State, action: Action) => {
         switch (action.type) {
             case 'update':
@@ -85,4 +85,4 @@ export const Score: React.FC<{word: string}> = (props: {word: string}) => {
             </tfoot>
         </table>
     )
-}
+})
