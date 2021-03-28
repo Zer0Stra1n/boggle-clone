@@ -1,9 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import './score.scss';
 
 type Scoreable = {
     word: string;
     points: number;
+}
+
+type State = {
+    totalPoints: number;
+    breakdown: Scoreable[];
+}
+
+type Action = {
+    type: 'update', 
+    payload: Scoreable
 }
 
 function calculateValue(word: string): number {
@@ -24,27 +34,31 @@ function calculateValue(word: string): number {
     }
 }
 
-export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => {
-    const [totalPoints, setTotalPoints] = useState(0);
-    const [breakdown, setBreakdown] = useState<Scoreable[]>([]);
+export const Score: React.FC<{word: string}> = (props: {word: string}) => {
+    const scoreReducer = (state: State, action: Action) => {
+        switch (action.type) {
+            case 'update':
+                return {
+                    totalPoints: state.totalPoints + action.payload.points,
+                    breakdown: [...state.breakdown, action.payload]
+                }
+            default: 
+                return state;
+        }
+    }
+    const [score, dispatch] = useReducer(scoreReducer, {totalPoints: 0, breakdown: []});
 
     useEffect(() => {
-        let total = 0;
-        if (props.words?.length) {
-            const calcBreakdown = props.words.map(word => {
-                const points = calculateValue(word);
-                total += points;
-
-                return {
-                    word: word,
-                    points: points
+        if (props.word) {
+            dispatch({
+                type: 'update',
+                payload: {
+                    word: props.word,
+                    points: calculateValue(props.word)
                 }
             });
-
-            setTotalPoints(total);
-            setBreakdown(calcBreakdown);
         }
-    }, [props.words]);
+    }, [props.word]);
     
     return (
         <table className="table table-striped table-bordered">
@@ -56,7 +70,7 @@ export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => 
                 </tr>
             </thead>
             <tbody>
-                {breakdown.map(item => (
+                {score.breakdown.map(item => (
                     <tr key={item.word}>
                         <td>{item.word}</td>
                         <td>{item.points}</td>
@@ -66,7 +80,7 @@ export const Score: React.FC<{words: string[]}> = (props: {words: string[]}) => 
             <tfoot>
                 <tr>
                     <th>Total</th>
-                    <td>{totalPoints}</td>
+                    <td>{score.totalPoints}</td>
                 </tr>
             </tfoot>
         </table>

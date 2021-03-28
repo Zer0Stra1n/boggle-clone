@@ -84,7 +84,7 @@ export const Board: React.FC<{ onClick: Function, used: Set<Cell> }> = (props: {
                 // otherwise
             } else {
                 // alert time
-                alert('Letters must be adjacent to make a sentance');
+                alert('Letters must be adjacent to make a sentence');
             }
         }
     }

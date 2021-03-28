@@ -19,30 +19,31 @@ type Action =
     | { type: 'update', payload: Cell };
 
 
+function submissionReducer(state: State, action: Action) {
+    switch (action.type) {
+        case 'update':
+            return {
+                potential: state.potential + action.payload.value,
+                usedCells: new Set<Cell>([...Array.from(state.usedCells), action.payload])
+            };
+        case 'reset':
+            return {
+                potential: '',
+                usedCells: new Set<Cell>()
+            };
+        default:
+            return state;
+    }
+};
+
 export const Game: React.FC<{}> = () => {
-    const initialState = {
-        potential: '',
-        usedCells: new Set<Cell>()
-    };
-
-    const submissionReducer = (state: State, action: Action) => {
-        switch (action.type) {
-            case 'update': 
-                return {
-                    potential: state.potential + action.payload.value,
-                    usedCells: new Set<Cell>([...Array.from(state.usedCells), action.payload])
-                };
-            case 'reset':
-                return {
-                    potential: '',
-                    usedCells: new Set<Cell>()
-                };
-            default:
-                throw new Error('unknown state');
+    const [submissionState, dispatch] = useReducer(submissionReducer, 
+        {
+            potential: '',
+            usedCells: new Set<Cell>()
         }
-    };
+    );
 
-    const [submissionState, dispatch] = useReducer(submissionReducer, initialState);
     const [words, setWords] = useState<string[]>([]);
 
     const handleSubmission = (word: string) => {
@@ -57,7 +58,6 @@ export const Game: React.FC<{}> = () => {
                ...words,
                word
             ]);
-
             dispatch({type: 'reset'});
         }
     }
@@ -70,7 +70,7 @@ export const Game: React.FC<{}> = () => {
         <div>
             <Board used={submissionState.usedCells} onClick={(square: Cell) => handleSelection(square)}/>
             <Submission word={submissionState.potential} onClick={(candidate: string) => handleSubmission(candidate)}/>
-            <Score words={words}/>
+            <Score word={ words.length ? words[words.length -1 ] : '' }/>
         </div>
     )
 };
