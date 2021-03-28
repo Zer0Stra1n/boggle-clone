@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { Cell } from '../game';
 import { GameRow } from './game-row/game-row';
 import './board.scss';
@@ -57,7 +57,7 @@ function verifyAdjacent(prev: Cell, cur: Cell): boolean {
 }
 
 export const Board: React.FC<{ onClick: Function, used: Set<Cell> }> = (props: { onClick: Function, used: Set<Cell> }) => {
-    const [board] = useState<Cell[][]>(generateBoard());
+    const board = useMemo(generateBoard, []);
 
     const validateCell = (cell: Cell) => {
         const usedCells = props.used;
