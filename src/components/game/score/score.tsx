@@ -34,18 +34,19 @@ function calculateValue(word: string): number {
     }
 }
 
-export const Score: React.FC<{word: string}> = React.memo((props: {word: string}) => {
-    const scoreReducer = (state: State, action: Action) => {
-        switch (action.type) {
-            case 'update':
-                return {
-                    totalPoints: state.totalPoints + action.payload.points,
-                    breakdown: [...state.breakdown, action.payload]
-                }
-            default: 
-                return state;
-        }
+function scoreReducer(state: State, action: Action) {
+    switch (action.type) {
+        case 'update':
+            return {
+                totalPoints: state.totalPoints + action.payload.points,
+                breakdown: [...state.breakdown, action.payload]
+            }
+        default: 
+            return state;
     }
+}
+
+export const Score: React.FC<{word: string}> = React.memo((props: {word: string}) => {
     const [score, dispatch] = useReducer(scoreReducer, {totalPoints: 0, breakdown: []});
 
     useEffect(() => {
